@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+	"http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>tex</shortname>
+	<uri>http://java.sun.com/portlet</uri>
+	<info>Gestion des portlets</info>
+	<tag>
+		<name>defineObjects</name>
+		<tagclass>net.tinyportal.javax.portlet.taglib.Taglib</tagclass>
+		<teiclass>net.tinyportal.javax.portlet.taglib.TaglibTEI</teiclass>
+		<bodycontent>empty</bodycontent>
+	</tag>
+	<tag>
+		<name>actionURL</name>
+		<tagclass>net.tinyportal.javax.portlet.taglib.ActionURL</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute><name>portletMode</name></attribute>
+		<attribute><name>windowState</name></attribute>
+		<attribute><name>secure</name></attribute>
+	</tag>
+	<tag>
+		<name>renderURL</name>
+		<tagclass>net.tinyportal.javax.portlet.taglib.RenderURL</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute><name>portletMode</name></attribute>
+		<attribute><name>windowState</name></attribute>
+		<attribute><name>secure</name></attribute>
+	</tag>
+	<tag>
+		<name>param</name>
+		<tagclass>net.tinyportal.javax.portlet.taglib.Param</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute><name>name</name></attribute>
+		<attribute><name>value</name> <rtexprvalue>true</rtexprvalue></attribute>
+	</tag>
+</taglib>
