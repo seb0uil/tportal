@@ -43,10 +43,14 @@ public class DrivePortlet extends GenericPortlet {
 			Drive drive = (Drive)service.getService(credential);
 			
 			logger.log(Level.INFO, "Recuperation des fichiers !!!!");
-			String folder = request.getParameter("action");
+			String type = request.getParameter("type");
+			if (!"application/vnd.google-apps.folder".equals(type) && type != null)
+				return;
+			
+			String folder = request.getParameter("id");
 			folder = (folder==null)?"root":folder;
 //			List<File> result = new ArrayList<File>();
-			Files.List fileList = drive.files().list().setMaxResults(10).setFields("items(id, mimeType,title)")
+			Files.List fileList = drive.files().list().setMaxResults(10) //.setFields("items(id, mimeType,title)")
 					.setQ("'"+folder+"' in parents");
 //			do {
 //				try {
