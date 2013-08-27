@@ -130,5 +130,9 @@ public class Constant {
 	 * Cle de la requete pour les services google
 	 */
 	static public final String portlet_credentiel = "net.tinyportal.credential";	
+	
+	
+	/* ELEMENT GOOGLE */
+	static public final String google_default_picture = "https://lh5.googleusercontent.com/-ivVPW1vyKe0/AAAAAAAAAAI/AAAAAAAAAAA/B_zfSnrX4Kk/s49-c/photo.jpg";
 
 }

@@ -20,18 +20,9 @@
 
 package net.tinyportal.javax.portlet.taglib;
 
-import javax.portlet.PortletMode;
-import javax.portlet.PortletModeException;
-import javax.portlet.PortletSecurityException;
-import javax.portlet.PortletURL;
-import javax.portlet.WindowState;
-import javax.portlet.WindowStateException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import net.tinyportal.Constant;
-import net.tinyportal.bean.PortletHolder;
 
 public class Param extends TagSupport {
 	String value = null;

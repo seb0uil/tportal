@@ -3,6 +3,8 @@
 <html>
 <head>
 <link rel="stylesheet" href="default.css" type="text/css" media="screen" />
+
+<%@ include file="js_header.jsp"%>
 </head>
 
 <body>

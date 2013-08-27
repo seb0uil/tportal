@@ -44,7 +44,7 @@
 	</jsp-config>
 	<context-param>
 		<param-name>JSPPortal</param-name>
-		<param-value>/WEB-INF/jsp/portal.jsp</param-value>
+		<param-value>/WEB-INF/jsp/portal2.jsp</param-value>
 	</context-param>
 
 </web-app>

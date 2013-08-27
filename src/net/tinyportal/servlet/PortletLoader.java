@@ -33,7 +33,7 @@ import javax.portlet.PortletException;
 import javax.servlet.ServletContext;
 
 import net.tinyportal.Constant;
-import net.tinyportal.Portal;
+import net.tinyportal.PortletManager;
 import net.tinyportal.bean.PortletHolder;
 import net.tinyportal.javax.portlet.TpPortletConfig;
 import net.tinyportal.javax.portlet.TpPortletContext;
@@ -78,7 +78,7 @@ public class PortletLoader {
 		List<String> portletsList = null;
 		return load(portletPathFile, portletsList);
 	}
-//	Portal.addPortlet(portletHolder.getPortletName(), portletHolder);
+//	PortletManager.addPortlet(portletHolder.getPortletName(), portletHolder);
 	/**
 	 * Charge, dans le chemin passé en paramètre, les portlets
 	 * présents dans la liste, si ceux-ci sont disponibles
@@ -127,7 +127,7 @@ public class PortletLoader {
 			String portletName = portletXml_.getPortletName();
 			
 			if (portletsList!=null && !portletsList.contains(portletName)) continue;
-			if (!Portal.isActivePortlet(portletName)) continue;
+			if (!PortletManager.isActivePortlet(portletName)) continue;
 			
 			PortletXML portletXml = portletXml_;
 
@@ -138,12 +138,12 @@ public class PortletLoader {
 
 			
 			TpPortletContext tpPorletContext = null;
-			if (Portal.isContextExist(portlet_directory)) {
-				tpPorletContext = Portal.getContext(portlet_directory);
+			if (PortletManager.isContextExist(portlet_directory)) {
+				tpPorletContext = PortletManager.getContext(portlet_directory);
 			} else {
 				tpPorletContext = new TpPortletContext(context, portletXml );
 				
-				Portal.addContext(tpPorletContext);
+				PortletManager.addContext(tpPorletContext);
 
 			}
 
@@ -173,7 +173,7 @@ public class PortletLoader {
 				e.printStackTrace();
 			} catch (Throwable t) {
 				t.printStackTrace();
-				Portal.addDisabledPortlet(portletName);
+				PortletManager.addDisabledPortlet(portletName);
 			}
 			
 		}

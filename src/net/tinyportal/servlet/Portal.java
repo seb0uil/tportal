@@ -30,6 +30,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.portal.google.dao.ContentDao;
+import net.portal.google.model.Content;
+import net.portal.google.service.GoogleService;
 import net.portal.google.service.api.Gapi;
 import net.tinyportal.Constant;
 
@@ -43,14 +46,14 @@ public class Portal extends HttpServlet  {
 	 * 
 	 */
 	private static final long serialVersionUID = 7934374005770615573L;
-	
+
 	/**
 	 * Jsp du portail, définie dans le web.xml
 	 */
 	private String portalJsp;
 
 	private Gapi gapi;
-	
+
 	/**
 	 * A l'initialisation de la servlet, on va initialiser les différents portlets présent<br/>
 	 * <br/>
@@ -69,49 +72,56 @@ public class Portal extends HttpServlet  {
 			 * On charge la valeur de la jsp
 			 */
 			portalJsp = context.getInitParameter("JSPPortal");
-			
+
 		} catch (ServletException e) {
 			e.printStackTrace();
 		}
+		
+//		Content content = new Content();
+//		content.setAuthor("admin");
+//		content.setContent("Test content");
+//		content.setTitle("test");
+//		
+//		ContentDao.save(content);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			
-		    // handle OAuth2 callback
+
+			// handle OAuth2 callback
 			boolean isRedirect = gapi.handleCallbackIfRequired(request, response);
 			if (isRedirect) return;
-			
-		    // Making sure that we have user credentials
-		    isRedirect = gapi.loginIfRequired(request, response);
-		    if (isRedirect) return;
-		    request.setAttribute(Constant.portlet_gapi, gapi);
-		    
-		    Credential credential = gapi.getCredential(request, response);
-		    request.setAttribute(Constant.portlet_credentiel, credential);
-//		    request.setAttribute(Constant.portlet_properties_prefix+ "response", response);
-		    
-				
-			Oauth2 userService = gapi.getOauth2Service(credential);
-			try {
-				Userinfo userInfo = userService.userinfo().get().execute();
-				request.setAttribute(Constant.portlet_properties_prefix+ "gapi.user.info", userInfo.getEmail());
 
+			// Making sure that we have user credentials
+			isRedirect = gapi.loginIfRequired(request, response);
+			if (isRedirect) return;
+			request.setAttribute(Constant.portlet_gapi, gapi);
 
-			} catch (GoogleJsonResponseException e) {
-				if (e.getStatusCode() == 401) {
-					// The user has revoked our token or it is otherwise bad.
-					// Delete the local copy so that their next page load will recover.
-					gapi.deleteCredential(request, response);
+			Credential credential = gapi.getCredential(request, response);
+			request.setAttribute(Constant.portlet_credentiel, credential);
+
+			String serviceName = request.getParameter("service");
+			if (serviceName != null) {
+				GoogleService service = gapi.getService(serviceName);
+				service.service(request, response);
+			} else {
+				Oauth2 userService = gapi.getOauth2Service(credential);
+				try {
+					Userinfo userInfo = userService.userinfo().get().execute();
+				} catch (GoogleJsonResponseException e) {
+					if (e.getStatusCode() == 401) {
+						// The user has revoked our token or it is otherwise bad.
+						// Delete the local copy so that their next page load will recover.
+						gapi.deleteCredential(request, response);
+					}
 				}
+
+				response.setHeader("Content-Type", "text/html");
+				ServletContext context = getServletContext();
+				RequestDispatcher servletDispatcher = context.getRequestDispatcher(portalJsp);
+
+				servletDispatcher.include(request, response);
 			}
-		    
-			response.setHeader("Content-Type", "text/html");
-			ServletContext context = getServletContext();
-			RequestDispatcher servletDispatcher = context.getRequestDispatcher(portalJsp);
-			
-			
-			servletDispatcher.include(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,6 +131,6 @@ public class Portal extends HttpServlet  {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
-	
+
+
 }

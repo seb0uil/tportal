@@ -30,7 +30,7 @@ import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import net.tinyportal.Portal;
+import net.tinyportal.PortletManager;
 
 import org.apache.log4j.Logger;
 
@@ -44,7 +44,7 @@ public class ListAllPortlet extends GenericPortlet {
 
 	public void doView(RenderRequest request,RenderResponse response) 
 			throws PortletException,IOException { 
-		Set<String> portlets = new HashSet(Portal.getPortletSet());
+		Set<String> portlets = new HashSet(PortletManager.getPortletSet());
  
 		request.setAttribute("portlets", portlets);
 		PortletRequestDispatcher dispatcher = getPortletContext().getRequestDispatcher("/WEB-INF/jsp/portlets/listAll/view.jsp");

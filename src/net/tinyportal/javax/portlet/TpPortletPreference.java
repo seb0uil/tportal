@@ -13,7 +13,7 @@
 
     You should have received a copy of the GNU General Public License
     along with tPortal.  If not, see <http://www.gnu.org/licenses/>.
-    
+
     The original code was written by Sebastien Bettinger <sebastien.bettinger@gmail.com>
 
  */
@@ -29,22 +29,43 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.jdo.JDOObjectNotFoundException;
+import javax.jdo.PersistenceManager;
 import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.ValidatorException;
 
+import net.portal.google.api.persistence.PMF;
+import net.portal.google.model.Preferences;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 public class TpPortletPreference implements PortletPreferences, Serializable {
-	
+
+	static PersistenceManager pm = PMF.get().getPersistenceManager();
+
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 192592517036732423L;
 	private Map<String, String[]> portletPreference = new HashMap<String, String[]>();
 	private List<String> readOnlyPreferences;
-	
-	public TpPortletPreference( Map<String, String[]> portletPreference, List<String> readOnlyPreferences) {
-		this.portletPreference = new HashMap<String, String[]>(portletPreference);
+	private String portletName;
+
+	public TpPortletPreference(String portletName, Map<String, String[]> portletPreference, List<String> readOnlyPreferences) {
+		//		this.portletPreference = new HashMap<String, String[]>(portletPreference);
 		this.readOnlyPreferences = readOnlyPreferences;
+		this.portletName = portletName;
+
+		try {
+			Key k = KeyFactory.createKey(Preferences.class.getSimpleName(), portletName);
+			Preferences p = pm.getObjectById(Preferences.class, k);
+			this.portletPreference = p.getPortletPreference();
+		} catch (JDOObjectNotFoundException e) {
+			this.portletPreference = new HashMap<String, String[]>(portletPreference);
+		}
 	}
 
 	@Override
@@ -106,7 +127,15 @@ public class TpPortletPreference implements PortletPreferences, Serializable {
 
 	@Override
 	public void store() throws IOException, ValidatorException {
-		// TODO gérer le stockage des préférences
-
+		try {
+			Preferences p = new Preferences();
+			p.setPortletPreference(portletPreference);
+			p.setPortletName(portletName);
+			Key key = KeyFactory.createKey(Preferences.class.getSimpleName(), portletName);
+			p.setKey(key);
+			pm.makePersistent(p);
+		} finally {
+			pm.close();
+		}
 	}
 }

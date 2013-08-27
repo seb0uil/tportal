@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.portal.google.service.GoogleService;
 import net.portal.google.service.credential.CredentialManager;
 import net.portal.google.service.drive.DriveService;
+import net.portal.google.service.plus.PlusService;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
@@ -38,7 +39,7 @@ public class Gapi implements Serializable {
 	/**
 	 * Path component under war/ to locate client_secrets.json file.
 	 */
-	public final String CLIENT_SECRETS_FILE_PATH = "/WEB-INF/client_secrets.json";
+	public final String CLIENT_SECRETS_FILE_PATH = (Boolean.parseBoolean(System.getProperty("local","false")))?"/WEB-INF/client_secrets_local.json":"/WEB-INF/client_secrets.json";
 	
 	/**
 	 * Key to get/set userId from and to the session.
@@ -55,7 +56,7 @@ public class Gapi implements Serializable {
 	
 	protected static List<GoogleService> services = new ArrayList<GoogleService>();
 	static {
-//		services.add(new PlusService());
+		services.add(new PlusService());
 		services.add(new DriveService());
 //		services.add(new CalendarService());
 	}

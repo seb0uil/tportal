@@ -127,7 +127,7 @@ public class TpPortletURL implements PortletURL, Serializable {
 	 */
 	static public String getPortletId(PortletHolder portlet){
 		try {
-			return portlet.toString().split("@")[1];
+			return portlet.getPortletName(); //.split("@")[1];
 		} catch (Exception e) {
 			return portlet.toString();	
 		}

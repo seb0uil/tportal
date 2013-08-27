@@ -118,7 +118,7 @@ public class PortletHolder implements Cloneable, Serializable {
 	public PortletHolder(PortletHolder bean) {
 		PortletXML portletXML = bean.portletXML;
 
-		TpPortletPreference preferences = new TpPortletPreference(portletXML.getPortletPreference(), portletXML.getReadOnlyPreferences());
+		TpPortletPreference preferences = new TpPortletPreference(portletXML.getPortletName(), portletXML.getPortletPreference(), portletXML.getReadOnlyPreferences());
 
 		this.preferences = preferences;
 		this.Title = new String();
@@ -132,7 +132,7 @@ public class PortletHolder implements Cloneable, Serializable {
 	}
 
 	public PortletHolder(GenericPortlet portlet, PortletXML portletXML) {
-		TpPortletPreference preferences = new TpPortletPreference(portletXML.getPortletPreference(), portletXML.getReadOnlyPreferences());
+		TpPortletPreference preferences = new TpPortletPreference(portletXML.getPortletName(), portletXML.getPortletPreference(), portletXML.getReadOnlyPreferences());
 		this.preferences = preferences;
 		this.Title = portletXML.getPortletTitle();
 		this.portletName = portletXML.getPortletName();
@@ -330,7 +330,7 @@ public class PortletHolder implements Cloneable, Serializable {
       		o = (PortletHolder) super.clone();
       		o.setContent(this.getContent());
       		
-      		TpPortletPreference preferences = new TpPortletPreference(portletXML.getPortletPreference(), portletXML.getReadOnlyPreferences());
+      		TpPortletPreference preferences = new TpPortletPreference(portletXML.getPortletName(), portletXML.getPortletPreference(), portletXML.getReadOnlyPreferences());
       		o.setPreferences(preferences);
       		
       		o.setPortletId(TpPortletURL.getPortletId(o));

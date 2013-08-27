@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.tinyportal.Constant;
-import net.tinyportal.Portal;
+import net.tinyportal.PortletManager;
 import net.tinyportal.bean.PortletHolder;
 import net.tinyportal.javax.portlet.TpActionRequest;
 import net.tinyportal.javax.portlet.TpActionResponse;
@@ -73,7 +73,7 @@ public class Portlet extends HttpServlet  {
 			File[] portletList = portletsPathFile.listFiles();
 			for (File portlet_directory : portletList) {
 				try {
-					Portal.addPortlets(pLoader.load(portlet_directory));
+					PortletManager.addPortlets(pLoader.load(portlet_directory));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -99,7 +99,7 @@ public class Portlet extends HttpServlet  {
 			HttpSession session = request.getSession(true);
 			PortletHolder portletHolder = (PortletHolder)session.getAttribute(portletName);
 			if (portletHolder == null) {
-				portletHolder = Portal.getPortlet(portletName);
+				portletHolder = PortletManager.getPortlet(portletName.split("//")[0]);
 				portletHolder.setActionResponse(null);
 				portletHolder.setRenderResponse(null);
 				portletHolder.setRenderRequest(null);
@@ -111,7 +111,7 @@ public class Portlet extends HttpServlet  {
 				 * fonctionne curieusement pas sur GAE
 				 */
 				portletHolder.setPortlet(
-						Portal.getPortlet(portletName).getPortlet() );
+						PortletManager.getPortlet(portletName).getPortlet() );
 			}
 
 
@@ -130,11 +130,6 @@ public class Portlet extends HttpServlet  {
 			TpRenderRequest TPrequest = new TpRenderRequest(portletId, request, tpPortletContext);
 			System.out.println("Get request" + TPrequest);
 
-
-			request.setAttribute("net.tinyportal.windowState",portletHolder.getWindowState());
-			request.setAttribute("net.tinyportal.portletMode",portletHolder.getPortletMode());
-			request.setAttribute("net.tinyportal.portletPreference",portletHolder.getPreferences());
-
 			portletHolder.setRenderRequest(TPrequest);
 			portletHolder.setRenderResponse(TPresponse);
 			portletHolder.setPortletConfig(portlet.getPortletConfig());
@@ -151,7 +146,7 @@ public class Portlet extends HttpServlet  {
 					TpPortletContext TpPortletContext = (TpPortletContext) portlet.getPortletContext();
 					TpActionRequest actionRequest = new TpActionRequest(portletHolder.getPortletId(),request,TpPortletContext);
 					TpActionResponse actionResponse = new TpActionResponse(portletHolder,response);
-					Portal.setPortletParameters(request, portletHolder, actionRequest);
+					PortletManager.setPortletParameters(request, portletHolder, actionRequest);
 
 					try {
 						portlet.processAction(actionRequest, actionResponse);
@@ -166,19 +161,22 @@ public class Portlet extends HttpServlet  {
 				} else if ("render".equalsIgnoreCase(action)) {
 					if (portletHolder.getActionResponse()!=null) 
 						TPrequest.getParameterMap().putAll(portletHolder.getActionResponse().getRenderParametersMap());
-					Portal.setPortletParameters(request, portletHolder, TPrequest);
+					PortletManager.setPortletParameters(request, portletHolder, TPrequest);
 
 				}
 
-				Portal.setWindowState(request, portletHolder);
-				Portal.setPortletMode(request, portletHolder);
+				PortletManager.setWindowState(request, portletHolder);
+				PortletManager.setPortletMode(request, portletHolder);
 
+				request.setAttribute("net.tinyportal.windowState",portletHolder.getWindowState());
+				request.setAttribute("net.tinyportal.portletMode",portletHolder.getPortletMode());
+				request.setAttribute("net.tinyportal.portletPreference", (TPrequest.getPreferences()!=null)?TPrequest.getPreferences():portletHolder.getPreferences()); //portletHolder.getPreferences());
+				
 				portlet.render(TPrequest,TPresponse);
-
 
 			} catch (UnavailableException ue) {
 				portlet.destroy();
-				Portal.addDisabledPortlet(portletName);
+				PortletManager.addDisabledPortlet(portletName);
 
 			} catch (PortletException e) {
 				log(e.getMessage());
@@ -229,15 +227,15 @@ public class Portlet extends HttpServlet  {
 					request.removeAttribute(attr);
 				}
 			}
-			
+
 			request.removeAttribute(Constant.portlet_request);
 			request.removeAttribute(Constant.portlet_response);
 			request.removeAttribute(Constant.portlet_config);
 		}
-	
-}
 
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	doGet(request, response);
-}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
 }
