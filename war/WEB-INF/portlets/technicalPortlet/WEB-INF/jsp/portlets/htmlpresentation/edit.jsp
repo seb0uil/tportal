@@ -1,5 +1,8 @@
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet" %>
 
+<%@page import="javax.portlet.PortletPreferences"%>
+
+
 <portlet:defineObjects />
 
 <script type="text/javascript" src="/html/tiny_mce/tiny_mce.js""></script>
@@ -42,8 +45,12 @@ tinyMCE.init({
 });
 </script>
 
+<% 
+PortletPreferences preferences = renderRequest.getPreferences();
+String content = preferences.getValue("content","Use edit mode to put text");
+%>
 <form method='post' action='<portlet:actionURL portletMode="view"/>'>
-        <textarea name="content" style="width:100%"></textarea>
+        <textarea name="content" style="width:100%"><%=content %></textarea>
         <br/>
         Title : <input name="title"/>
 </form>

@@ -32,7 +32,7 @@ do {
 				  <% if (!f.getMimeType().equals("application/vnd.google-apps.folder")) { %>
 	    				<td>
 	    					<img src="<%=f.getIconLink() %>"/>
-	    				    <a href="<%= f.getSelfLink()%>"><%= f.getTitle()%></a>
+	    				    <a href="<%= f.getWebContentLink()%>"><%= f.getTitle()%></a>
 	    				</td>
 	    				<td>
 	    					<% String size = (f.getFileSize()==null)?"unknow":f.getFileSize().toString()+" b"; %>

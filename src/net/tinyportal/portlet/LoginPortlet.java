@@ -30,8 +30,8 @@ import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import net.portal.google.service.api.Gapi;
 import net.tinyportal.Constant;
+import net.tinyportal.service.google.api.Gapi;
 
 import org.apache.log4j.Logger;
 

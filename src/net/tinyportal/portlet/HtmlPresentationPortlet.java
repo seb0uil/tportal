@@ -14,6 +14,10 @@ import javax.portlet.RenderResponse;
 import org.apache.log4j.Logger;
 
 public class HtmlPresentationPortlet extends GenericPortlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1101904574258893267L;
 	private static final Logger logger = Logger.getLogger(HtmlPresentationPortlet.class);
 
 	public void doView(RenderRequest request,RenderResponse response) throws PortletException,IOException {

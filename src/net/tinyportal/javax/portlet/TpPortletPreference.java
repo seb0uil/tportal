@@ -35,8 +35,8 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.ValidatorException;
 
-import net.portal.google.api.persistence.PMF;
-import net.portal.google.model.Preferences;
+import net.tinyportal.google.api.persistence.PMF;
+import net.tinyportal.google.model.Preferences;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;

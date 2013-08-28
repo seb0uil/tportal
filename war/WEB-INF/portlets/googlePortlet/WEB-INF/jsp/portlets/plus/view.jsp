@@ -57,8 +57,9 @@ Activity activity = activities.get(0);
 						$('.TPpopover').popover({
 							placement : 'auto top'
 						});
-					}
+					};
 					setInterval(plusPost,5000);
+					plusPost();
 				});
 				
 				

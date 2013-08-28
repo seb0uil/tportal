@@ -13,10 +13,10 @@ import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import net.portal.google.service.GoogleService;
-import net.portal.google.service.api.Gapi;
-import net.portal.google.service.plus.PlusService;
 import net.tinyportal.Constant;
+import net.tinyportal.service.google.GoogleService;
+import net.tinyportal.service.google.api.Gapi;
+import net.tinyportal.service.google.plus.PlusService;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.plus.Plus;

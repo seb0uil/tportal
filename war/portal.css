@@ -11,3 +11,13 @@ body {
 .row {
 	margin-bottom: 30px;
 }
+
+.portlet-menu-bar {
+	 min-height: 5px;
+	 max-height: 5px;
+	 display:none;
+}
+
+.dropdown-toggle.portlet-menu {
+	line-height: 5px;	
+}

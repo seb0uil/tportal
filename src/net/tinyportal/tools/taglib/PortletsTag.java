@@ -21,14 +21,11 @@
 package net.tinyportal.tools.taglib;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import net.tinyportal.bean.PortletHolder;
 
 /**
  * La classe PortletsTag permet, par le taglib associé, de parcourir la liste
@@ -43,16 +40,6 @@ public class PortletsTag extends TagSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Liste des portlets de la page
-	 */
-	private List<PortletHolder> portlets;
-
-	/**
-	 * Index sur le portlet a afficher
-	 */
-	private int current = 0;
 
 	private String portletName = null;
 

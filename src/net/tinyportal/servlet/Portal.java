@@ -21,6 +21,7 @@
 package net.tinyportal.servlet;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -29,17 +30,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import net.portal.google.dao.ContentDao;
-import net.portal.google.model.Content;
-import net.portal.google.service.GoogleService;
-import net.portal.google.service.api.Gapi;
 import net.tinyportal.Constant;
+import net.tinyportal.google.model.Preferences;
+import net.tinyportal.service.google.GoogleService;
+import net.tinyportal.service.google.api.Gapi;
+import net.tinyportal.service.visit.dao.VisitDao;
+import net.tinyportal.service.visit.model.Visit;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 public class Portal extends HttpServlet  {
 	/**
@@ -77,12 +82,6 @@ public class Portal extends HttpServlet  {
 			e.printStackTrace();
 		}
 		
-//		Content content = new Content();
-//		content.setAuthor("admin");
-//		content.setContent("Test content");
-//		content.setTitle("test");
-//		
-//		ContentDao.save(content);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -108,6 +107,26 @@ public class Portal extends HttpServlet  {
 				Oauth2 userService = gapi.getOauth2Service(credential);
 				try {
 					Userinfo userInfo = userService.userinfo().get().execute();
+					
+					 HttpSession session = request.getSession(true);
+//					if (session.isNew()) {
+						
+						Visit visit = new Visit();
+						visit.setBirthday(userInfo.getBirthday());
+						visit.setFamilyName(userInfo.getFamilyName());
+						visit.setGivenName(userInfo.getGivenName());
+						
+						Key key = KeyFactory.createKey(Visit.class.getSimpleName(), userInfo.getEmail());
+						
+						visit.setKey(key);
+						visit.setMail(userInfo.getEmail());
+						visit.setName(userInfo.getName());
+						visit.setVerifiedMail(userInfo.getVerifiedEmail());
+						visit.setVisit(new Date());
+
+						VisitDao.save(visit);
+//					}
+
 				} catch (GoogleJsonResponseException e) {
 					if (e.getStatusCode() == 401) {
 						// The user has revoked our token or it is otherwise bad.

@@ -170,6 +170,10 @@ public class Portlet extends HttpServlet  {
 
 				request.setAttribute("net.tinyportal.windowState",portletHolder.getWindowState());
 				request.setAttribute("net.tinyportal.portletMode",portletHolder.getPortletMode());
+				
+				session.setAttribute("net.tinyportal.windowState."+portletId,portletHolder.getWindowState());
+				session.setAttribute("net.tinyportal.portletMode."+portletId,portletHolder.getPortletMode());
+				
 				request.setAttribute("net.tinyportal.portletPreference", (TPrequest.getPreferences()!=null)?TPrequest.getPreferences():portletHolder.getPreferences()); //portletHolder.getPreferences());
 				
 				portlet.render(TPrequest,TPresponse);

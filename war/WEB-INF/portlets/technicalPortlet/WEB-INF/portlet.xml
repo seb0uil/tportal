@@ -53,4 +53,16 @@
 			<keywords>tPortal presentation</keywords>
 		</portlet-info>
 	</portlet>
+	
+		<portlet>
+		<portlet-name>WelcomePortlet</portlet-name>
+		<portlet-class>net.tinyportal.portlet.WelcomePortlet</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>VIEW</portlet-mode>
+		</supports>
+		<supported-locale>fr</supported-locale>
+	</portlet>
+	
 </portlet-app> 
