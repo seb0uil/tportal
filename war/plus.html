@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Google+ API Test</title>
+</head>
+<body>
+
+<button onclick="authBegin()">Login</button><br>
+<button onclick="getPublicActivities($('user').value)">Get activities of user </button><input id="user" size="10" value="me"><br>
+
+<script>
+var scope = "https://www.googleapis.com/auth/plus.me";
+var client_id = "49234261250-d7nmmtvefevo260to9pf69vq1ia2ts98.apps.googleusercontent.com";
+
+function $(id) { return document.getElementById(id); }
+// JSONP query
+function XDomainScript() {
+	this.cb_cnt = (new Date).getTime();
+}
+XDomainScript.prototype = {
+    load: function(url, callback) {
+        var id = this.cb_cnt++;
+        var ele = document.createElement("script");
+        ele.src = url + (url.indexOf('?') < 0 ? '?' : '&') + 'callback=xds.cb' + id;
+        ele.type = "text/javascript";
+        this['cbe' + id] = ele;
+        this['cb' + id] = function(){ this.abort(id); callback.apply(this, arguments); }
+        document.body.appendChild(ele);
+        return id;
+    },
+    abort: function(id) {
+        var ele = this['cbe' + id];
+        ele.parentNode.removeChild(ele);
+        delete this['cb' + id];
+        delete this['cbe' + id];
+    },
+}
+var xds = new XDomainScript;
+
+// Login procedure
+function authBegin() {
+	setTimeout(function(){ location.href = "https://accounts.google.com/o/oauth2/auth?client_id="+client_id+"&response_type=token&scope="+scope+"&redirect_uri="+location.href; }, 0);
+}
+
+// Get OAuth 2.0 access token from URL hash
+var access_token;
+if (location.hash.match(/access_token=([\w\.-]+)(?:&|$)/)) {
+	access_token = RegExp.$1;
+}
+if (access_token) document.write("Login OK<br>");
+
+// Example to issue the API
+function getPublicActivities(id) {
+	id = id || "me";
+	document.createElement("script");
+	
+	xds.load("https://www.googleapis.com/plus/v1/people/"+id+"/activities/public?oauth_token="+access_token, displayActivities);
+}
+
+// Display results
+function displayActivities(x) {
+	console.log(x);
+	$("title").innerText = x.title;
+	$("title").href = x.selfLink;
+	$("updated").innerText = "Updated at " + x.updated;
+	if (!x.items) return;
+	for (var i = 0; i < x.items.length; i++) {
+		var item = x.items[i];
+		var pele = document.createElement("p");
+		pele.style.borderBottom = "solid 1px grey";
+		pele.innerHTML = item.object.content + "<br>";
+		var ele_date = document.createElement("a");
+		var attachments = item.object && item.object.attachments;
+		if (attachments) {
+			for (var j = 0; j < attachments.length; j++) {
+				if (attachments[j].image) {
+					pele.appendChild(document.createElement("br"));
+					var img = document.createElement("img");
+					img.src = attachments[j].image.url;
+					pele.appendChild(img);
+				}
+			}
+		}
+		ele_date.innerHTML = "<small><small>(" + item.updated + ")</small></small>";
+		ele_date.href = item.url;
+		pele.appendChild(ele_date);
+		$("result").appendChild(pele);
+	}
+}
+</script>
+
+<hr>
+<div><a id="title"><a></div>
+<div id="updated"></div>
+<div id="result"></div>
+
+</body>
+</html>
