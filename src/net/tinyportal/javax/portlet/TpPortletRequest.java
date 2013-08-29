@@ -47,7 +47,6 @@ import net.tinyportal.tools.TpEnumeration;
 
 public class TpPortletRequest implements PortletRequest, Serializable {
 
-//	PortletHolder portletHolder;
 
 	/**
 	 * 
@@ -66,7 +65,6 @@ public class TpPortletRequest implements PortletRequest, Serializable {
 	private HashMap<String, String[]> parameters = new HashMap<String, String[]>();
 
 	public TpPortletRequest(String portletId, HttpServletRequest httpRequest, TpPortletContext tpPortletContext) {
-//		this.portletHolder = portletBean;
 		this.tpPortletContext = tpPortletContext;
 		this.httpRequest = httpRequest;
 		

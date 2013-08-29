@@ -40,6 +40,10 @@ public class ListAllPortlet extends GenericPortlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -5176701510146773320L;
+	
+	/**
+	 * Logger
+	 */
 	private static final Logger logger = Logger.getLogger(ListAllPortlet.class);
 
 	public void doView(RenderRequest request,RenderResponse response) 

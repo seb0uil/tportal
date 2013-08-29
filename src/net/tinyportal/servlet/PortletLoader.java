@@ -164,9 +164,9 @@ public class PortletLoader {
 				PortletHolder portletHolder = new PortletHolder(portlet,portletXml);
 				portletPool.put(portletHolder.getPortletName(), portletHolder);
 			} catch (PortletException pe) {
+				//TODO Gérer les exceptions
 				//Exception levée lors de l'initialisation du portlet, on passe
 				// la suite du traitement du portlet
-//				return;
 			} catch (RuntimeException re) {
 //				return;
 			} catch (Exception e) {

@@ -207,10 +207,8 @@ public class Portlet extends HttpServlet  {
 				ServletContext context = getServletContext();
 
 				System.out.println("Going to dispatch with /" + portalJsp);
-				//				HttpServletResponse newResponse = new FictiveHttpServletResponse((HttpServletResponse) response);				
 				RequestDispatcher servletDispatcher = context.getRequestDispatcher("/"+portalJsp);			
 				servletDispatcher.include(request, response);
-				//				TPresponse.getWriter().write(response.getWriter().);
 			} 
 			else {
 				response.setContentType("text/html; charset=UTF-8");

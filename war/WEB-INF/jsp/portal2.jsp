@@ -15,17 +15,6 @@
 
 <%@taglib tagdir="/WEB-INF/tags/portlet" prefix="p"%>
 
-<script>
-	function checkControl(flag) {
-		if (flag) {
-			$('.portlet-menu-bar').show();
-			$('.portlet-menu').show();
-		} else {
-			$('.portlet-menu-bar').hide();
-			$('.portlet-menu').hide();
-		};
-	}
-</script>
 </head>
 
 <body>
@@ -48,7 +37,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a > <INPUT type="checkbox" onclick="checkControl($(this).is(':checked'));"> Afficher les controles</a></li>
+                <li><a > <INPUT type="checkbox" id="checkbox-control"> Afficher les controles</a></li>
                 <li><a href="#">Another action</a></li>
                 <li><a href="#">Something else here</a></li>
                 <li class="divider"></li>

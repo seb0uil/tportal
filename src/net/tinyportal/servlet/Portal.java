@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.tinyportal.Constant;
-import net.tinyportal.google.model.Preferences;
 import net.tinyportal.service.google.GoogleService;
 import net.tinyportal.service.google.api.Gapi;
 import net.tinyportal.service.visit.dao.VisitDao;

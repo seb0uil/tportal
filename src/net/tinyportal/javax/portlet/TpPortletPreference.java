@@ -55,7 +55,6 @@ public class TpPortletPreference implements PortletPreferences, Serializable {
 	private String portletName;
 
 	public TpPortletPreference(String portletName, Map<String, String[]> portletPreference, List<String> readOnlyPreferences) {
-		//		this.portletPreference = new HashMap<String, String[]>(portletPreference);
 		this.readOnlyPreferences = readOnlyPreferences;
 		this.portletName = portletName;
 

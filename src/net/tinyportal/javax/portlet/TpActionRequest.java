@@ -30,6 +30,7 @@ import javax.portlet.ActionRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.mortbay.log.Log;
 
 public class TpActionRequest extends TpPortletRequest implements ActionRequest, Serializable {
 

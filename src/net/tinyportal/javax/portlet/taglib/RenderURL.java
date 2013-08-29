@@ -41,8 +41,4 @@ public class RenderURL extends ActionURL {
 		return portletURL;
 	}
 	
-//	protected void addParam(String key, String value) {
-//		portletURL.setParameter(key, value);
-//	}
-	
 }
